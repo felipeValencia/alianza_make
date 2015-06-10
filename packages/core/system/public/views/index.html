@@ -1,17 +1,362 @@
 
-<div class="wrapper" data-ng-controller="IndexController">
-  <div class="cube">
-    <b class="front">front</b>
-    <b class="back">back</b>
-    <b class="top">top</b>
-    <b class="bottom">bottom</b>
-    <b class="left">left</b>
-    <b class="right">right</b>
-    <i class="front"></i>
-    <i class="back"></i>
-    <i class="top"></i>
-    <i class="bottom"></i>
-    <i class="left"></i>
-    <i class="right"></i>
-  </div>
-</div>
+  <!--<div class=""  data-ng-controller="IndexController as index" >
+
+    <canvas id="tempCanvas" width="320" height="480"></canvas>
+    <div id="canvasDiv"></div>
+
+    <div class="image">
+
+          <img src="/system/assets/img/back/2.jpg" alt="" />
+          <h2 class='head1'> <span class="mif-question icon-special-preview" style='color:white'></span></h2>
+          <h2 class='head2'><span >KEEP</span></h2>
+          <h2 class='head3'><span >CALM</span></h2>
+          <h2 class='head4'><span >AND</span></h2>
+          <h2 class='head5'><span >CARRY</span></h2>
+          <h2 class='head6'><span >ON</span></h2>
+
+
+    </div>
+
+
+  </div>-->
+
+  <div class="stage"  data-ng-controller="IndexController as index" >
+
+      <div class="cube" ng-class="{ 'front-mov': front, 'left-mov': left, 'back-mov': back, 'right-mov': right , 'bottom-mov': bottom  }">
+        <figure class="back" id='back'>           
+         <div class="col-md-12" style='display:none'>    
+           <h3 style='color:white'>Selecciona una Imagen de Fondo</h3>
+              <div align='center'>
+                 <span class="{{selected}} icon-special click-button" style='color:{{color}}'  ng-click="open()"></span> 
+             </div>             
+              <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:left' ng-click="ButtonClicked($event,'bottom')"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></button>
+              <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:right' ng-click="ButtonClicked($event,'back')"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+            </div>                          
+        </figure>
+        <figure class="top" id='top'>                
+        </figure>
+        <figure class="bottom" id='bottom'>
+          <div class="col-md-12" style='display:none'>    
+           <h3 style='color:white'>Escribe el texto de la imagen...</h1>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="checkbox" aria-label="...">
+                </span>
+                <input type="text" class="form-control" aria-label="..." placeholder='Primer Renglón...'>               
+              </div>  
+            <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="checkbox" aria-label="...">
+                </span>
+                <input type="text" class="form-control" aria-label="..." placeholder='Segundo Renglón...'>               
+              </div>  
+            <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="checkbox" aria-label="...">
+                </span>
+                <input type="text" class="form-control" aria-label="..." placeholder='Tercer Renglón...'>               
+              </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="checkbox" aria-label="...">
+                </span>
+                <input type="text" class="form-control" aria-label="..." placeholder='Cuarto Renglón...'>               
+              </div>
+            <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="checkbox" aria-label="...">
+                </span>
+                <input type="text" class="form-control" aria-label="..." placeholder='Quinto Renglón...'>               
+              </div>
+              <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:left' ng-click="ButtonClicked($event,'left')"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></button>
+              <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:right' ng-click="ButtonClicked($event,'bottom')"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+            </div>                                   
+        </figure>
+        <figure class="left" id='left'>
+           <button ng-click="ButtonClicked($event,'left')" style='display:none'>Next Side</button>      
+        </figure>
+        <figure class="right" id='right'>
+           <div class="col-md-12" style='display:none'>    
+           <h3 style='color:white'>Selecciona un Icono y su Color</h3>
+              <div align='center'>
+                 <span class="{{selected}} icon-special click-button" style='color:{{color}}'  ng-click="open()"></span>    
+                 <br>  
+                 <br>                
+                 <div class="input-group">  
+                   <span class="input-group-addon"><span class="glyphicon glyphicon-tint" style='color:{{color}}'></span></span>
+                  <input  colorpicker type="text"  ng-model="color" class="form-control">
+                </div>
+             </div>             
+              <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:left' ng-click="ButtonClicked($event,'front')"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></button>
+              <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:right' ng-click="ButtonClicked($event,'right')"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+            </div>                          
+        </figure>
+        <figure class="front" id='front'>  
+        <div style='position:relative; z-index:1; display:none'>
+        <button type="button" class="btn btn-default btn-xs" style='margin-top:10px; float:right' ng-click="ButtonClicked($event,'front')"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>        
+        </div>
+        </figure>
+      </div>
+    </div>
+
+      <script>
+          (function( $ ){
+          var svgData = {
+            "front" :
+            {
+              "strokepath" :
+              [
+                {
+                    "path": "M 3 331.809 L 3 0.00001",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 328 -0.99999 L 330 332.809",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 330.19101 L 328.90448 329.19101",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 2.19101 L 325.90448 3.19101",
+                    "duration": 4000
+               }
+              ],
+              "dimensions" : { "width": 331, "height":331 }
+            }
+          };
+
+           var svgDataTop = {
+            "top" :
+            {
+              "strokepath" :
+              [
+                {
+                    "path": "M 3 331.809 L 3 0.00001",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 328 -0.99999 L 330 332.809",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 330.19101 L 328.90448 329.19101",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 2.19101 L 325.90448 3.19101",
+                    "duration": 4000
+               }
+              ],
+              "dimensions" : { "width": 331, "height":331 }
+            }
+          };
+
+           var svgDataLeft = {
+            "left" :
+            {
+              "strokepath" :
+              [
+                {
+                    "path": "M 3 331.809 L 3 0.00001",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 328 -0.99999 L 330 332.809",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 330.19101 L 328.90448 329.19101",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 2.19101 L 325.90448 3.19101",
+                    "duration": 4000
+               }
+              ],
+              "dimensions" : { "width": 331, "height":331 }
+            }
+          };
+
+           var svgDataRight = {
+            "right" :
+            {
+              "strokepath" :
+              [
+                {
+                    "path": "M 3 331.809 L 3 0.00001",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 328 -0.99999 L 330 332.809",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 330.19101 L 328.90448 329.19101",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 2.19101 L 325.90448 3.19101",
+                    "duration": 4000
+               }
+              ],
+              "dimensions" : { "width": 331, "height":331 }
+            }
+          };
+
+           var svgDataBack = {
+            "back" :
+            {
+              "strokepath" :
+              [
+                {
+                    "path": "M 3 331.809 L 3 0.00001",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 328 -0.99999 L 330 332.809",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 330.19101 L 328.90448 329.19101",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 2.19101 L 325.90448 3.19101",
+                    "duration": 4000
+               }
+              ],
+              "dimensions" : { "width": 331, "height":331 }
+            }
+          };
+
+           var svgDataBottom = {
+            "bottom" :
+            {
+              "strokepath" :
+              [
+                {
+                    "path": "M 3 331.809 L 3 0.00001",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 328 -0.99999 L 330 332.809",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 330.19101 L 328.90448 329.19101",
+                    "duration": 4000
+                },
+                {
+                    "path": "M 3.90448 2.19101 L 325.90448 3.19101",
+                    "duration": 4000
+               }
+              ],
+              "dimensions" : { "width": 331, "height":331 }
+            }
+          };
+
+
+
+          $(document).ready(function(){
+
+            // Setup your Lazy Line element.
+            // see README file for more settings
+            $('#front').lazylinepainter({
+                'svgData' : svgData,
+                'strokeWidth':7,
+                'strokeColor':'#ffffff',
+                'onComplete' : function(){
+                  console.log('>> onComplete');
+                 // $('#front').lazylinepainter('erase');
+                },
+                'onStart' : function(){
+                  console.log('>> onStart');
+                }
+              });
+            var state = 'paint';
+            $('#front').lazylinepainter(state);             
+
+            $('#top').lazylinepainter({
+              'svgData' : svgDataTop,
+              'strokeWidth':7,
+              'strokeColor':'#ffffff',
+              'onComplete' : function(){
+                console.log('>> onComplete');
+               // $('#front').lazylinepainter('erase');
+              },
+              'onStart' : function(){
+                console.log('>> onStart');
+              }
+            });
+          var state = 'paint';
+           $('#top').lazylinepainter(state);
+
+
+
+            $('#left').lazylinepainter({
+              'svgData' : svgDataLeft,
+              'strokeWidth':7,
+              'strokeColor':'#ffffff',
+              'onComplete' : function(){
+                console.log('>> onComplete');
+               // $('#front').lazylinepainter('erase');
+              },
+              'onStart' : function(){
+                console.log('>> onStart');
+              }
+            });
+          var state = 'paint';
+           $('#left').lazylinepainter(state);
+
+
+           $('#right').lazylinepainter({
+              'svgData' : svgDataRight,
+              'strokeWidth':7,
+              'strokeColor':'#ffffff',
+              'onComplete' : function(){
+                console.log('>> onComplete');
+               // $('#front').lazylinepainter('erase');
+              },
+              'onStart' : function(){
+                console.log('>> onStart');
+              }
+            });
+          var state = 'paint';
+           $('#right').lazylinepainter(state);
+
+
+           $('#back').lazylinepainter({
+              'svgData' : svgDataBack,
+              'strokeWidth':7,
+              'strokeColor':'#ffffff',
+              'onComplete' : function(){
+                console.log('>> onComplete');
+               // $('#front').lazylinepainter('erase');
+              },
+              'onStart' : function(){
+                console.log('>> onStart');
+              }
+            });
+          var state = 'paint';
+           $('#back').lazylinepainter(state);
+
+           $('#bottom').lazylinepainter({
+              'svgData' : svgDataBottom,
+              'strokeWidth':7,
+              'strokeColor':'#ffffff',
+              'onComplete' : function(){
+                console.log('>> onComplete');
+               // $('#front').lazylinepainter('erase');
+              },
+              'onStart' : function(){
+                console.log('>> onStart');
+              }
+            });
+          var state = 'paint';
+           $('#bottom').lazylinepainter(state);
+
+          });
+      })( jQuery );
+      </script>

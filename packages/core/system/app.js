@@ -18,6 +18,10 @@ SystemPackage.register(function(app, auth, database) {
   SystemPackage.routes(app, auth, database);
 
   SystemPackage.aggregateAsset('css', 'common.css');
+  SystemPackage.aggregateAsset('css', 'metro-icons.css');
+  SystemPackage.aggregateAsset('css', 'colorpicker.css');
+  SystemPackage.aggregateAsset('js', 'bootstrap-colorpicker-module.js');
+  SystemPackage.aggregateAsset('js', 'jquery.lazylinepainter-1.5.1.js',{global:true});
   SystemPackage.angularDependencies(['ui.router', 'mean-factory-interceptor']);
 
   // The middleware in config/express will run before this code
